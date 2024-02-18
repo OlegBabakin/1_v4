@@ -43,22 +43,14 @@ void print_file(FILE *file, long **arr, long l_s, long l_c, long str)
 
 void string_del(long **arr, long l_s, long l_c, long str)
 {
+	printf("--1--\n");
 	if(l_s > 1 && str != l_s-1)
 	{
-		for(int i = 0; i < l_s; i++)
+		for(int i = str+1; i < l_s; i++)
 		{
-			for(int j = 0; j < l_c; j++)
-        	{
-            	if(i == str)
-            	{
-                	for(int counter = i+1; counter < l_s; counter++)
-                	{
-                	    arr[counter-1][j] = arr[counter][j];
-                	}
-            	}
-			}
+			arr[i-1] = arr[i];
 		}
-	}	
+	}
     return;
 }
 
@@ -153,6 +145,7 @@ int processing(long M, long N, FILE *in, FILE *out, long **matrix, long row_num)
 	}
 
 	row_num = row_num_(matrix, M, N); // searching number of row to delete
+	printf("row_num: %ld", row_num);
 	string_del(matrix, M, N, row_num); // 'deleting' some row of matrix
 	print_file(out, matrix, M, N, row_num); // printing final matrix to file "res.txt"
 	

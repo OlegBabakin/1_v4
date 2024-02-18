@@ -6,9 +6,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+int processing(long M, long N, FILE *in, FILE *out, long **matrix, long row_num); // function to solve problem
 long** matrix_construct_file(FILE *in,long num_rows, long num_col); // function to construct matrix from file 'in'
 void scan_len(FILE *file, long *len);
-long str_num(long **arr, long l_s, long l_c);
+long row_num(long **arr, long l_s, long l_c);
 void string_del(long**arr, long l_s, long l_c, long str);
 void print_file(FILE *file, long **arr, long l_s, long l_c, long str);
 
@@ -113,13 +114,8 @@ long** matrix_construct_file(FILE *in, long num_rows, long num_col)
 	return matrix;
 }
 
-int main(void)
+int processing(long M, long N, FILE *in, FILE *out, long **matrix, long row_num)
 {
-	long M = 0, N = 0; // number of rows and number of columns of matrix
-	long row_num = -1; // number of row to delete
-	FILE *in = NULL, *out = NULL;
-    long **matrix = NULL;
-	
 	// trying to open file "data.txt" and "res.txt"
 	in = fopen("data.txt", "r");
 	if(in == NULL)
@@ -135,6 +131,7 @@ int main(void)
 		return -1;
 	}
 
+	// trying to scan M and N 
 	scan_len(in, &M);
 	scan_len(in, &N);
 	if(M == 0 || N == 0)
@@ -143,17 +140,29 @@ int main(void)
 		return -1;
 	}
 
-	matrix = matrix_construct_file(in, M, N)
+	// trying to construct matrix
+	matrix = matrix_construct_file(in, M, N);
 	if(matrix == NULL)
 	{
 		printf("ERROR_3\n");
 		return -1;
 	}
-	row_num = str_num(matrix, M, N);
-	string_del(matrix, M, N, row_num);
-	print_file(out, matrix, M, N, row_num);
+
+	row_num = str_num(matrix, M, N); // searching number of row to delete
+	string_del(matrix, M, N, row_num); // 'deleting' some row of matrix
+	print_file(out, matrix, M, N, row_num); // printing final matrix to file "res.txt"
+	
 	free(matrix);
 	fclose(in);
 	fclose(out);
+}
+
+int main(void)
+{
+	long M = 0, N = 0; // number of rows and number of columns of matrix
+	long row_num = -1; // number of row to delete
+	FILE *in = NULL, *out = NULL; // input file and output file
+    long **matrix = NULL; // matrix
+	processing(M, N, in, out, matrix, row_num); // solving problem
 	return 0;
 }

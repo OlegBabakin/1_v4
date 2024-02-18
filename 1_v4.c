@@ -11,7 +11,7 @@
 int processing(long M, long N, FILE *in, FILE *out, long **matrix, long row_num); // function to solve problem
 long** matrix_construct_file(FILE *in,long num_rows, long num_col); // function to construct matrix from file 'in'
 void scan_len(FILE *file, long *len);
-long row_num(long **arr, long l_s, long l_c);
+long row_num_(long **arr, long l_s, long l_c);
 void string_del(long**arr, long l_s, long l_c, long str);
 void print_file(FILE *file, long **arr, long l_s, long l_c, long str);
 
@@ -62,7 +62,7 @@ void string_del(long **arr, long l_s, long l_c, long str)
     return;
 }
 
-long row_num(long **arr, long l_s, long l_c)
+long row_num_(long **arr, long l_s, long l_c)
 {
 	double sum = 0.;
 	double average = 0.;
@@ -73,7 +73,7 @@ long row_num(long **arr, long l_s, long l_c)
 			sum += arr[i][j];
 		}
 	}
-	average = (double)sum/(l_c*l_s);
+	average = sum/(double)(l_c*l_s);
 	for(long i = 0; i < l_s; i++)
 	{
 		for(int j = 0; j < l_c; j++)
@@ -152,7 +152,7 @@ int processing(long M, long N, FILE *in, FILE *out, long **matrix, long row_num)
 		return -1;
 	}
 
-	row_num = row_num(matrix, M, N); // searching number of row to delete
+	row_num = row_num_(matrix, M, N); // searching number of row to delete
 	string_del(matrix, M, N, row_num); // 'deleting' some row of matrix
 	print_file(out, matrix, M, N, row_num); // printing final matrix to file "res.txt"
 	

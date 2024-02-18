@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-long** matrix_construct_file(FILE *in,long num_rows, long num_col);
+long** matrix_construct_file(FILE *in,long num_rows, long num_col); // function to construct matrix from file 'in'
 void scan_len(FILE *file, long *len);
 long str_num(long **arr, long l_s, long l_c);
 void string_del(long**arr, long l_s, long l_c, long str);
@@ -116,12 +116,12 @@ long** matrix_construct_file(FILE *in, long num_rows, long num_col)
 
 int main(void)
 {
-	long M = 0, N = 0;
-	int c = 0;
-	long string = -1;
+	long M = 0, N = 0; // number of rows and number of columns of matrix
+	long row_num = -1; // number of row to delete
 	FILE *in = NULL, *out = NULL;
     long **matrix = NULL;
 	
+	// trying to open file "data.txt" and "res.txt"
 	in = fopen("data.txt", "r");
 	if(in == NULL)
 	{
@@ -135,6 +135,7 @@ int main(void)
 		printf("ERROR_2\n");
 		return -1;
 	}
+
 	scan_len(in, &M);
 	scan_len(in, &N);
 	if(M == 0 || N == 0)
@@ -142,15 +143,16 @@ int main(void)
 		printf("LENGTH IS 0\n");
 		return -1;
 	}
+
 	matrix = matrix_construct_file(in, M, N)
 	if(matrix == NULL)
 	{
 		printf("ERROR_3\n");
 		return -1;
 	}
-	string = str_num(matrix, M, N);
-	string_del(matrix, M, N, string);
-	print_file(out, matrix, M, N, string);
+	row_num = str_num(matrix, M, N);
+	string_del(matrix, M, N, row_num);
+	print_file(out, matrix, M, N, row_num);
 	free(matrix);
 	fclose(in);
 	fclose(out);

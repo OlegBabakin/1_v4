@@ -108,7 +108,6 @@ long** matrix_construct_file(FILE *in, long num_rows, long num_col)
 	if(c != num_rows*num_col)
 	{
 		free(matrix);
-		printf("ERROR_3\n");
 		return NULL;
 	}
 	return matrix;

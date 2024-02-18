@@ -12,7 +12,7 @@ int processing(long M, long N, FILE *in, FILE *out, long **matrix, long row_num)
 long** matrix_construct_file(FILE *in,long num_rows, long num_col); // function to construct matrix from file 'in'
 void scan_len(FILE *file, long *len);
 long row_num_(long **arr, long l_s, long l_c);
-void string_del(long**arr, long l_s, long l_c, long str);
+void row_del(long**arr, long l_s, long l_c, long str);
 void print_file(FILE *file, long **arr, long l_s, long l_c, long str);
 
 void print_file(FILE *file, long **arr, long l_s, long l_c, long str)
@@ -41,7 +41,7 @@ void print_file(FILE *file, long **arr, long l_s, long l_c, long str)
 	}
 }
 
-void string_del(long **arr, long *l_s, long l_c, long str)
+void row_del(long **arr, long *l_s, long l_c, long str)
 {
 	if(*l_s > 1 && str < *l_s-1 && str > -1)
 	{
@@ -150,7 +150,7 @@ int processing(long M, long N, FILE *in, FILE *out, long **matrix, long row_num)
 	}
 
 	row_num = row_num_(matrix, M, N); // searching number of row to delete
-	string_del(matrix, &M, N, row_num); // 'deleting' some row of matrix
+	row_del(matrix, &M, N, row_num); // 'deleting' some row of matrix
 	print_file(out, matrix, M, N, row_num); // printing final matrix to file "res.txt"
 	
 	free(matrix);

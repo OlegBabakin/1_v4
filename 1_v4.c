@@ -64,7 +64,8 @@ void string_del(long **arr, long l_s, long l_c, long str)
 
 long str_num(long **arr, long l_s, long l_c)
 {
-	double sum = 0;
+	double sum = 0.;
+	double average = 0.;
 	for(int i = 0; i < l_s; i++)
 	{
 		for(int j = 0; j < l_c; j++)
@@ -72,11 +73,12 @@ long str_num(long **arr, long l_s, long l_c)
 			sum += arr[i][j];
 		}
 	}
+	average = (double)sum/(l_c*l_s);
 	for(long i = 0; i < l_s; i++)
 	{
 		for(int j = 0; j < l_c; j++)
 		{
-			if(fabs((double)arr[i][j] - (double)sum/(l_c*l_s)) < DBL_EPSILON)
+			if(fabs((double)arr[i][j] - average) < DBL_EPSILON)
 			{
 				return i;
 			}

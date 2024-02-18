@@ -5,6 +5,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
+#include <float.h>
 
 int processing(long M, long N, FILE *in, FILE *out, long **matrix, long row_num); // function to solve problem
 long** matrix_construct_file(FILE *in,long num_rows, long num_col); // function to construct matrix from file 'in'
@@ -74,7 +76,7 @@ long str_num(long **arr, long l_s, long l_c)
 	{
 		for(int j = 0; j < l_c; j++)
 		{
-			if(arr[i][j] == sum/(l_c*l_s))
+			if(fabs((double)arr[i][j] - (double)sum/(l_c*l_s)) < DBL_EPSILON)
 			{
 				return i;
 			}

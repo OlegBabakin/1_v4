@@ -62,7 +62,7 @@ void string_del(long **arr, long l_s, long l_c, long str)
     return;
 }
 
-long str_num(long **arr, long l_s, long l_c)
+long row_num(long **arr, long l_s, long l_c)
 {
 	double sum = 0.;
 	double average = 0.;
@@ -152,7 +152,7 @@ int processing(long M, long N, FILE *in, FILE *out, long **matrix, long row_num)
 		return -1;
 	}
 
-	row_num = str_num(matrix, M, N); // searching number of row to delete
+	row_num = row_num(matrix, M, N); // searching number of row to delete
 	string_del(matrix, M, N, row_num); // 'deleting' some row of matrix
 	print_file(out, matrix, M, N, row_num); // printing final matrix to file "res.txt"
 	

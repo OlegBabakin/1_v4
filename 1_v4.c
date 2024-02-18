@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-long scan_len(FILE *file, long len);
+void scan_len(FILE *file, long *len);
 long str_num(long **arr, long l_s, long l_c);
 void string_del(long**arr, long l_s, long l_c, long str);
 void print_file(FILE *file, long **arr, long l_s, long l_c, long str);
@@ -81,10 +81,9 @@ long str_num(long **arr, long l_s, long l_c)
 	return -1;
 }
 
-long scan_len(FILE *file, long len)
+void scan_len(FILE *file, long *len)
 {
-	fscanf(file, "%ld", &len);
-	return len;
+	fscanf(file, "%ld", len);
 }
 
 int main(void)
@@ -94,6 +93,7 @@ int main(void)
 	long string = -1;
 	FILE *in, *out;
     long **matrix;
+	
 	in = fopen("data.txt", "r");
 	if(in == NULL)
 	{
@@ -107,8 +107,8 @@ int main(void)
 		printf("ERROR_2\n");
 		return -1;
 	}
-	M = scan_len(in, M);
-	N = scan_len(in, N);
+	scan_len(in, &M);
+	scan_len(in, &N);
 	if(M == 0 || N == 0)
 	{
 		printf("LENGTH IS 0\n");

@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+long** matrix_construct_file(FILE *in,long num_rows, long num_col);
 void scan_len(FILE *file, long *len);
 long str_num(long **arr, long l_s, long l_c);
 void string_del(long**arr, long l_s, long l_c, long str);
@@ -86,13 +87,40 @@ void scan_len(FILE *file, long *len)
 	fscanf(file, "%ld", len);
 }
 
+long** matrix_construct_file(FILE *in, long num_rows, long num_col)
+{
+	int c = 0;
+	long **matrix = NULL;
+	matrix = (long**)malloc(num_rows*sizeof(long*)+num_rows*num_col*sizeof(long));
+    matrix[0] = (long*)(matrix + num_rows);
+	for(int i = 1; i < num_rows; i++)
+	{
+		matrix[i] = matrix[i-1]+num_col;
+	}
+	for(int i = 0; i < num_rows; i++)
+	{
+		for(int j = 0; j < num_col; j++)
+		{
+			if(fscanf(in, "%ld", &matrix[i][j]) == 1)
+				c++;
+		}
+	} 
+	if(c != num_rows*num_col)
+	{
+		free(matrix);
+		printf("ERROR_3\n");
+		return NULL;
+	}
+	return matrix;
+}
+
 int main(void)
 {
 	long M = 0, N = 0;
 	int c = 0;
 	long string = -1;
-	FILE *in, *out;
-    long **matrix;
+	FILE *in = NULL, *out = NULL;
+    long **matrix = NULL;
 	
 	in = fopen("data.txt", "r");
 	if(in == NULL)
@@ -114,21 +142,8 @@ int main(void)
 		printf("LENGTH IS 0\n");
 		return -1;
 	}
-	matrix = (long**)malloc(M*sizeof(long*)+M*N*sizeof(long));
-    matrix[0] = (long*)(matrix + M);
-	for(int i = 1; i < M; i++)
-	{
-		matrix[i] = matrix[i-1]+N;
-	}
-	for(int i = 0; i < M; i++)
-	{
-		for(int j = 0; j < N; j++)
-		{
-			if(fscanf(in, "%ld", &matrix[i][j]) == 1)
-				c++;
-		}
-	} 
-	if(c != N*M)
+	matrix = matrix_construct_file(in, M, N)
+	if(matrix == NULL)
 	{
 		printf("ERROR_3\n");
 		return -1;
